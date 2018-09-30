@@ -7,8 +7,9 @@ defmodule Sequel.MixProject do
       version: "0.1.0",
       elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
-    ]
+      deps: deps(),
+      test_coverage: [tool: ExCoveralls]
+    ] ++ aliases() ++ dialyzer()
   end
 
   # Run "mix help compile.app" to learn about applications.
@@ -23,6 +24,24 @@ defmodule Sequel.MixProject do
     [
       # {:dep_from_hexpm, "~> 0.3.0"},
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
+      {:dialyxir, "~> 0.5.1"},
+      {:excoveralls, "~> 0.5.7"}
     ]
+  end
+
+  defp aliases do
+    [
+      aliases: [initialize: &initialize/1]
+    ]
+  end
+
+  defp initialize(_) do
+    unless File.exists?(".dialyzer") do
+      File.mkdir!(".dialyzer")
+    end
+  end
+
+  defp dialyzer do
+    [dialyzer: [plt_core_path: ".dialyzer/"]]
   end
 end
