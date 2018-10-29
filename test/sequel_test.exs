@@ -21,4 +21,16 @@ defmodule SequelTest do
   test "two" do
     assert Sequel.create(table: Person, name: String, age: Integer, hobby: String) != nil
   end
+
+  test "three" do
+    q = Sequel.create(table: Person, name: String, age: Integer, hobby: String)
+    Sequel.execute(q)
+    r = Sequel.insert(table: Person, name: "Alice", age: 32, hobby: "programming")
+    Sequel.execute(r)
+    s = [
+      select: :age,
+      from: Person
+    ]
+    assert Sequel.execute(s) == [32]
+  end
 end
