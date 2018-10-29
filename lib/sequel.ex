@@ -1,18 +1,13 @@
 defmodule Sequel do
-  @moduledoc """
-  Documentation for Sequel.
-  """
+  def create(x) do
+    [{:create, x}]
+  end
 
-  @doc """
-  Hello world.
+  def execute([{:create, [{:table, name} | fields]}]) do
+    Sequel.Table.create(name, fields)
+  end
 
-  ## Examples
+  def execute([{:delete, [table: _name]}]) do
 
-      iex> Sequel.hello
-      :world
-
-  """
-  def hello do
-    :world
   end
 end
